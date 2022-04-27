@@ -5,16 +5,30 @@
 //  Created by s b on 24.04.2022.
 //
 
-import Foundation
+import CoreData
+public class Restaurant: NSManagedObject {
+    
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Restaurant>{
+        return NSFetchRequest<Restaurant>(entityName: "Restaurant")
+    }
+    
+    @NSManaged public var name: String
+    @NSManaged public var type: String
+    @NSManaged public var location: String
+    @NSManaged public var phone: String
+    @NSManaged public var summary: String
+    @NSManaged public var image: Data
+    @NSManaged public var ratingText: String?
+    @NSManaged public var isFavorite: Bool
+}
 
-struct Restaurant: Hashable {
+extension Restaurant {
     enum Rating: String {
         case awesome
         case good
         case okay
         case bad
         case terrible
-        
         var image: String {
             switch self {
             case .awesome: return "love"
@@ -23,15 +37,15 @@ struct Restaurant: Hashable {
             case .bad: return "sad"
             case .terrible: return "angry"
             }
+} }
+    var rating: Rating? {
+        get {
+            guard let ratingText = ratingText else {
+                return nil
+}
+            return Rating(rawValue: ratingText)
         }
-    }
-    
-    var name: String = ""
-    var type: String = ""
-    var location: String = ""
-    var phone: String = ""
-    var description: String = ""
-    var image: String = ""
-    var isFavorite: Bool = false
-    var rating: Rating?
+        set {
+            self.ratingText = newValue?.rawValue
+} }
 }

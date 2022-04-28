@@ -12,6 +12,8 @@ class RestaurantTableViewController: UITableViewController {
     
     var fetchResultController: NSFetchedResultsController<Restaurant>!
     
+    var searchController: UISearchController!
+    
     var restaurants:[Restaurant] = []
     
     @IBOutlet var emptyRestaurantView: UIView!
@@ -51,6 +53,15 @@ class RestaurantTableViewController: UITableViewController {
         //Empty view
         tableView.backgroundView = emptyRestaurantView
         tableView.backgroundView?.isHidden = restaurants.count == 0 ? false : true
+        
+        //Search implementation
+        searchController = UISearchController(searchResultsController: nil)
+        tableView.tableHeaderView = searchController.searchBar
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search restaurants..."
+        searchController.searchBar.backgroundImage = UIImage()
+        searchController.searchBar.tintColor = UIColor(named: "NavigationBarTitle")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,8 +97,16 @@ class RestaurantTableViewController: UITableViewController {
     }
     
     // MARK: - CoreData fetch data
-    func fetchRestaurantData() {
+    // TODO: Transfer to it's own class
+    func fetchRestaurantData(searchText: String = "") {
         let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest()
+        
+        //Seach logic
+        
+        if !searchText.isEmpty {
+            fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ OR location CONTAINS[c] %@", searchText, searchText)
+        }
+        
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         
         if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
@@ -121,6 +140,11 @@ class RestaurantTableViewController: UITableViewController {
     // MARK: - UITableViewDelegate Protocol
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        //Deactivate swipe actions while searching
+        if searchController.isActive {
+                return UISwipeActionsConfiguration()
+        }
         
         guard let restaurant = self.dataSource.itemIdentifier(for: indexPath) else {
             return UISwipeActionsConfiguration()
@@ -212,5 +236,14 @@ class RestaurantTableViewController: UITableViewController {
 extension RestaurantTableViewController: NSFetchedResultsControllerDelegate {
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updateSnapshot()
+    }
+}
+//Search update logic
+extension RestaurantTableViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let searchText = searchController.searchBar.text else {
+            return
+}
+        fetchRestaurantData(searchText: searchText)
     }
 }

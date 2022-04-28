@@ -9,14 +9,12 @@ import UIKit
 import CoreData
 
 class RestaurantTableViewController: UITableViewController {
+    @IBOutlet var emptyRestaurantView: UIView!
     
+    var restaurants: [Restaurant] = []
     var fetchResultController: NSFetchedResultsController<Restaurant>!
     
     var searchController: UISearchController!
-    
-    var restaurants:[Restaurant] = []
-    
-    @IBOutlet var emptyRestaurantView: UIView!
     
     lazy var dataSource = configureDataSource()
     
@@ -25,14 +23,18 @@ class RestaurantTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Enable large title for navigation bar
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.hidesBarsOnSwipe = true
         navigationItem.backButtonTitle = ""
         
+        // Customize the navigation bar appearance
         if let appearance = navigationController?.navigationBar.standardAppearance {
+        
             appearance.configureWithTransparentBackground()
             
             if let customFont = UIFont(name: "Nunito-Bold", size: 45.0) {
+                
                 appearance.titleTextAttributes = [.foregroundColor: UIColor(named: "NavigationBarTitle")!]
                 appearance.largeTitleTextAttributes = [.foregroundColor: UIColor(named: "NavigationBarTitle")!, .font: customFont]
             }
@@ -40,23 +42,23 @@ class RestaurantTableViewController: UITableViewController {
             navigationController?.navigationBar.standardAppearance = appearance
             navigationController?.navigationBar.compactAppearance = appearance
             navigationController?.navigationBar.scrollEdgeAppearance = appearance
-            
-            
         }
-        fetchRestaurantData()
-        
+
+        // Set up the data source of the table view
         tableView.dataSource = dataSource
         tableView.separatorStyle = .none
-        
-        
         tableView.cellLayoutMarginsFollowReadableWidth = true
-        //Empty view
+        
+        // Prepare the empty view
         tableView.backgroundView = emptyRestaurantView
         tableView.backgroundView?.isHidden = restaurants.count == 0 ? false : true
         
-        //Search implementation
+        fetchRestaurantData()
+        
+        // Add a search bar
         searchController = UISearchController(searchResultsController: nil)
-        tableView.tableHeaderView = searchController.searchBar
+        self.navigationItem.searchController = searchController
+        
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search restaurants..."
@@ -69,6 +71,19 @@ class RestaurantTableViewController: UITableViewController {
         
         navigationController?.hidesBarsOnSwipe = true
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        if UserDefaults.standard.bool(forKey: "hasViewedWalkthrough") {
+            return
+        }
+        
+        let storyboard = UIStoryboard(name: "Onboarding", bundle: nil)
+        if let walkthroughViewController = storyboard.instantiateViewController(withIdentifier: "WalkthroughViewController") as? WalkthroughViewController {
+            
+            present(walkthroughViewController, animated: true, completion: nil)
+        }
     }
     
     // MARK: - UITableView Diffable Data Source
@@ -93,78 +108,40 @@ class RestaurantTableViewController: UITableViewController {
         )
         
         return dataSource
-        
-    }
-    
-    // MARK: - CoreData fetch data
-    // TODO: Transfer to it's own class
-    func fetchRestaurantData(searchText: String = "") {
-        let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest()
-        
-        //Seach logic
-        
-        if !searchText.isEmpty {
-            fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ OR location CONTAINS[c] %@", searchText, searchText)
-        }
-        
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        
-        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-            let context = appDelegate.persistentContainer.viewContext
-            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            fetchResultController.delegate = self
-            
-            do {
-                try fetchResultController.performFetch()
-                updateSnapshot()
-            } catch {
-                print(error)
-            }
-        }
-    }
-    
-    func updateSnapshot(animatingChange: Bool = false) {
-        if let fetchedObjects = fetchResultController.fetchedObjects {
-            restaurants = fetchedObjects
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Restaurant>()
-        snapshot.appendSections([.all])
-        snapshot.appendItems(restaurants, toSection: .all)
-        
-        dataSource.apply(snapshot, animatingDifferences:  animatingChange)
-        
-        tableView.backgroundView?.isHidden = restaurants.count == 0 ? false : true
     }
     
     // MARK: - UITableViewDelegate Protocol
-    
+        
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        //Deactivate swipe actions while searching
         if searchController.isActive {
-                return UISwipeActionsConfiguration()
+            return UISwipeActionsConfiguration()
         }
         
+        // Get the selected restaurant
         guard let restaurant = self.dataSource.itemIdentifier(for: indexPath) else {
             return UISwipeActionsConfiguration()
         }
         
-        //Delete action
+        // Delete action
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, completionHandler) in
             
             if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
                 let context = appDelegate.persistentContainer.viewContext
                 
+                // Delete the item
                 context.delete(restaurant)
                 appDelegate.saveContext()
+                
+                // Update the view
                 self.updateSnapshot(animatingChange: true)
             }
             
+            // Call completion handler to dismiss the action button
             completionHandler(true)
         }
         
-        //Share action
+        // Share action
         let shareAction = UIContextualAction(style: .normal, title: "Share") { (action, sourceView, completionHandler) in
             let defaultText = "Just checking in at " + restaurant.name
             
@@ -175,7 +152,8 @@ class RestaurantTableViewController: UITableViewController {
             } else  {
                 activityController = UIActivityViewController(activityItems: [defaultText], applicationActivities: nil)
             }
-            //iPad Fix
+            
+            // For iPad
             if let popoverController = activityController.popoverPresentationController {
                 if let cell = tableView.cellForRow(at: indexPath) {
                     popoverController.sourceView = cell
@@ -186,35 +164,41 @@ class RestaurantTableViewController: UITableViewController {
             self.present(activityController, animated: true, completion: nil)
             completionHandler(true)
         }
+        
+        // Change the button's color
         deleteAction.backgroundColor = UIColor.systemRed
         deleteAction.image = UIImage(systemName: "trash")
-        
+
         shareAction.backgroundColor = UIColor.systemOrange
         shareAction.image = UIImage(systemName: "square.and.arrow.up")
         
+        // Configure both actions as swipe action
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
-        
+            
         return swipeConfiguration
     }
     
     override func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        //Like action
+        // Mark as favorite action
         let favoriteAction = UIContextualAction(style: .destructive, title: "") { (action, sourceView, completionHandler) in
             
             let cell = tableView.cellForRow(at: indexPath) as! RestaurantTableViewCell
-            
+
             cell.favoriteImageView.isHidden = self.restaurants[indexPath.row].isFavorite
             
             self.restaurants[indexPath.row].isFavorite = self.restaurants[indexPath.row].isFavorite ? false : true
             
+            // Call completion handler to dismiss the action button
             completionHandler(true)
         }
+        
+        // Configure swipe action
         favoriteAction.backgroundColor = UIColor.systemYellow
         favoriteAction.image = UIImage(systemName: self.restaurants[indexPath.row].isFavorite ? "heart.slash.fill" : "heart.fill")
         
         let swipeConfiguration = UISwipeActionsConfiguration(actions: [favoriteAction])
-        
+            
         return swipeConfiguration
     }
     
@@ -224,26 +208,74 @@ class RestaurantTableViewController: UITableViewController {
         if segue.identifier == "showRestaurantDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let destinationController = segue.destination as! RestaurantDetailViewController
+                destinationController.hidesBottomBarWhenPushed = true
                 destinationController.restaurant = self.restaurants[indexPath.row]
             }
         }
     }
+    
     @IBAction func unwindToHome(segue: UIStoryboardSegue) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    // MARK: - Core Data
+    
+    func fetchRestaurantData(searchText: String = "") {
+        // Fetch data from data store
+        let fetchRequest: NSFetchRequest<Restaurant> = Restaurant.fetchRequest()
+        
+        if !searchText.isEmpty {
+            fetchRequest.predicate = NSPredicate(format: "name CONTAINS[c] %@ OR location CONTAINS[c] %@", searchText, searchText)
+        }
+
+        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            let context = appDelegate.persistentContainer.viewContext
+            fetchResultController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            fetchResultController.delegate = self
+
+            do {
+                try fetchResultController.performFetch()
+                updateSnapshot(animatingChange: searchText.isEmpty ? false : true)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    func updateSnapshot(animatingChange: Bool = false) {
+        
+        if let fetchedObjects = fetchResultController.fetchedObjects {
+            restaurants = fetchedObjects
+        }
+        
+        // Create a snapshot and populate the data
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Restaurant>()
+        snapshot.appendSections([.all])
+        snapshot.appendItems(restaurants, toSection: .all)
+        
+        dataSource.apply(snapshot, animatingDifferences: animatingChange)
+      
+        tableView.backgroundView?.isHidden = restaurants.count == 0 ? false : true
     }
 }
 
 extension RestaurantTableViewController: NSFetchedResultsControllerDelegate {
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         updateSnapshot()
     }
 }
-//Search update logic
+
 extension RestaurantTableViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+        
         guard let searchText = searchController.searchBar.text else {
             return
-}
+        }
+    
         fetchRestaurantData(searchText: searchText)
     }
 }

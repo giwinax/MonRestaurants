@@ -18,25 +18,35 @@ class RestaurantDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Configure the navigation bar appearance
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.hidesBarsOnSwipe = false
         navigationItem.backButtonTitle = ""
         
         tableView.contentInsetAdjustmentBehavior = .never
         
+        // Configure header view
         headerView.nameLabel.text = restaurant.name
         headerView.typeLabel.text = restaurant.type
         headerView.headerImageView.image = UIImage(data: restaurant.image)
         
+        if let rating = restaurant.rating {
+            headerView.ratingImageView.image = UIImage(named: rating.image)
+        }
+        
+        // Configure Favorite icon
         configureFavoriteIcon()
+        
+//        let heartImage = restaurant.isFavorite ? "heart.fill" : "heart"
+//        headerView.heartButton.tintColor = restaurant.isFavorite ? .systemYellow : .white
+//        headerView.heartButton.setImage(UIImage(systemName: heartImage), for: .normal)
 
+        // Configure the data source
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
         
-        if let rating = restaurant.rating {
-            headerView.ratingImageView.image = UIImage(named: rating.image)
-        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,11 +54,14 @@ class RestaurantDetailViewController: UIViewController {
         
         navigationController?.hidesBarsOnSwipe = false
         navigationController?.setNavigationBarHidden(false, animated: true)
+        
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
+    
+    
 }
 
 
@@ -62,27 +75,35 @@ extension RestaurantDetailViewController: UITableViewDataSource, UITableViewDele
         switch indexPath.row {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: RestaurantDetailTextCell.self), for: indexPath) as! RestaurantDetailTextCell
+            
             cell.descriptionLabel.text = restaurant.summary
+            
             cell.selectionStyle = .none
+            
             return cell
             
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: RestaurantDetailTwoColumnCell.self), for: indexPath) as! RestaurantDetailTwoColumnCell
+            
             cell.column1TitleLabel.text = "Address"
             cell.column1TextLabel.text = restaurant.location
             cell.column2TitleLabel.text = "Phone"
             cell.column2TextLabel.text = restaurant.phone
+            
             cell.selectionStyle = .none
+            
             return cell
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: RestaurantDetailMapCell.self), for: indexPath) as! RestaurantDetailMapCell
             cell.configure(location: restaurant.location)
             cell.selectionStyle = .none
+            
             return cell
-        
+            
         default:
             fatalError("Failed to instantiate the table view cell for detail view controller")
+            
         }
     }
 
@@ -112,14 +133,16 @@ extension RestaurantDetailViewController: UITableViewDataSource, UITableViewDele
         }
         
         dismiss(animated: true, completion: {
+            
             if let rating = Restaurant.Rating(rawValue: identifier) {
                 self.restaurant.rating = rating
                 self.headerView.ratingImageView.image = UIImage(named: rating.image)
-            
-            if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-                appDelegate.saveContext()
+                
+                if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+                    appDelegate.saveContext()
+                }
             }
-        }
+            
             let scaleTransform = CGAffineTransform.init(scaleX: 0.1, y: 0.1)
             self.headerView.ratingImageView.transform = scaleTransform
             self.headerView.ratingImageView.alpha = 0
@@ -128,25 +151,28 @@ extension RestaurantDetailViewController: UITableViewDataSource, UITableViewDele
                 self.headerView.ratingImageView.transform = .identity
                 self.headerView.ratingImageView.alpha = 1
             }, completion: nil)
+            
         })
     }
+    
+    @IBAction func saveFavorite() {
+        
+        restaurant.isFavorite.toggle()
+                
+        configureFavoriteIcon()
 
-@IBAction func saveFavorite() {
-    
-    restaurant.isFavorite.toggle()
-            
-    configureFavoriteIcon()
-    
-    if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
-        appDelegate.saveContext()
+        // Save the change to the database
+        if let appDelegate = (UIApplication.shared.delegate as? AppDelegate) {
+            appDelegate.saveContext()
+        }
     }
+    
+    func configureFavoriteIcon() {
+        let heartImage = restaurant.isFavorite ? "heart.fill" : "heart"
+        let heartIconConfiguration = UIImage.SymbolConfiguration(pointSize: 25, weight: .semibold)
+        favoriteBarButton.image = UIImage(systemName: heartImage, withConfiguration: heartIconConfiguration)
+        favoriteBarButton.tintColor = restaurant.isFavorite ? .systemYellow : .white
+    }
+
 }
 
-func configureFavoriteIcon() {
-    let heartImage = restaurant.isFavorite ? "heart.fill" : "heart"
-    let heartIconConfiguration = UIImage.SymbolConfiguration(pointSize: 25, weight: .semibold)
-    favoriteBarButton.image = UIImage(systemName: heartImage, withConfiguration: heartIconConfiguration)
-    favoriteBarButton.tintColor = restaurant.isFavorite ? .systemYellow : .white
-}
-
-}

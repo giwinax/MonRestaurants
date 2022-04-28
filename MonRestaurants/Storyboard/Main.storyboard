@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4Cv-SH-5pB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="4FQ-m2-asw">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
@@ -190,7 +190,7 @@
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="813.84615384615381" y="88.862559241706151"/>
+            <point key="canvasLocation" x="1743.0769230769231" y="88.862559241706151"/>
         </scene>
         <!--Restaurant Detail View Controller-->
         <scene sceneID="eI0-Bp-Tl4">
@@ -432,7 +432,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s3l-Qa-mJj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1618.4615384615383" y="88.862559241706151"/>
+            <point key="canvasLocation" x="2549" y="106"/>
         </scene>
         <!--New Restaurant-->
         <scene sceneID="jZd-B3-dvR">
@@ -661,7 +661,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kbb-HF-DAF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="5zF-64-TWG" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1617" y="-886"/>
+            <point key="canvasLocation" x="1743" y="-727"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="asn-Wg-mhb">
@@ -691,7 +691,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="soW-CJ-3xE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2330.7692307692305" y="91.706161137440759"/>
+            <point key="canvasLocation" x="3258.4615384615386" y="91.706161137440759"/>
         </scene>
         <!--Review View Controller-->
         <scene sceneID="IQa-Pr-j0N">
@@ -798,12 +798,13 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c8b-qJ-Z5k" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="ezL-8l-dHC" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2329.2307692307691" y="772.74881516587675"/>
+            <point key="canvasLocation" x="2548" y="956"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Favorites-->
         <scene sceneID="j94-qC-7vx">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="4Cv-SH-5pB" customClass="NavigationController" customModule="MonRestaurants" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Favorites" image="star.fill" catalog="system" id="jqQ-2G-Fh7"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iKI-KZ-9DP">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
@@ -816,7 +817,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="01b-Qa-6W5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-26" y="89"/>
+            <point key="canvasLocation" x="903.07692307692309" y="88.862559241706151"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="UWF-vM-jz4">
@@ -834,7 +835,47 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TOs-WB-CIo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="814" y="-886"/>
+            <point key="canvasLocation" x="903" y="-727"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="FEZ-y7-KEn">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="4FQ-m2-asw" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="bnc-DB-dC2">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="4Cv-SH-5pB" kind="relationship" relationship="viewControllers" id="2mf-2F-sDu"/>
+                        <segue destination="AlK-3C-fYW" kind="relationship" relationship="viewControllers" id="qHj-Dd-wL8"/>
+                        <segue destination="S6X-SI-WFy" kind="relationship" relationship="viewControllers" id="7eI-IX-3HS"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YHg-ZG-nbo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-26.153846153846153" y="88.862559241706151"/>
+        </scene>
+        <!--About-->
+        <scene sceneID="k3A-Tc-Rvz">
+            <objects>
+                <viewControllerPlaceholder storyboardName="About" id="S6X-SI-WFy" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="wSD-1e-FjK"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MqN-wc-lUG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-275" y="523"/>
+        </scene>
+        <!--Discover-->
+        <scene sceneID="9Fz-uI-nix">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Discover" id="AlK-3C-fYW" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="y8O-wY-S3d"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s0o-Pk-CZ6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="210" y="523"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
@@ -851,6 +892,7 @@
         <image name="newphoto" width="1840" height="1380"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="sad" width="78" height="87"/>
+        <image name="star.fill" catalog="system" width="128" height="116"/>
         <image name="xmark" catalog="system" width="128" height="113"/>
         <namedColor name="NavigationBarTitle">
             <color red="0.85490196078431369" green="0.37647058823529411" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

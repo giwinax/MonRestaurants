@@ -275,7 +275,6 @@ extension RestaurantTableViewController: UISearchResultsUpdating {
         guard let searchText = searchController.searchBar.text else {
             return
         }
-    
         fetchRestaurantData(searchText: searchText)
     }
 }

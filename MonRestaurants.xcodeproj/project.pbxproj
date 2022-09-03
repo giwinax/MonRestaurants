@@ -18,14 +18,20 @@
 		32213AC2281AF85C00193658 /* Discover.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 32213ABE281AF85C00193658 /* Discover.storyboard */; };
 		32213AC4281AFDEC00193658 /* AboutTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32213AC3281AFDEC00193658 /* AboutTableViewController.swift */; };
 		32213AC6281B089A00193658 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32213AC5281B089A00193658 /* WebViewController.swift */; };
+		32213ACA281B1EC200193658 /* DiscoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32213AC9281B1EC200193658 /* DiscoverTableViewController.swift */; };
 		3277C45328140F680074FA77 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3277C45228140F680074FA77 /* AppDelegate.swift */; };
 		3277C45528140F680074FA77 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3277C45428140F680074FA77 /* SceneDelegate.swift */; };
 		3277C45F28140F690074FA77 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3277C45D28140F690074FA77 /* LaunchScreen.storyboard */; };
 		3277C4832814500C0074FA77 /* RestaurantTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3277C4822814500C0074FA77 /* RestaurantTableViewController.swift */; };
+		32AF80A628229B4200987D0F /* FetchedRestraurants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF80A528229B4200987D0F /* FetchedRestraurants.swift */; };
+		32AF80A82822A0A000987D0F /* JSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AF80A72822A0A000987D0F /* JSONModel.swift */; };
 		32D2C98F28146FAE001ABA61 /* RestaurantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D2C98E28146FAE001ABA61 /* RestaurantTableViewCell.swift */; };
 		32D2C9962815C3C5001ABA61 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D2C9952815C3C5001ABA61 /* Restaurant.swift */; };
 		32D2C99A2815D890001ABA61 /* RestaurantDiffableDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D2C9992815D890001ABA61 /* RestaurantDiffableDataSource.swift */; };
 		32D2C99D28171307001ABA61 /* RestaurantDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D2C99C28171307001ABA61 /* RestaurantDetailViewController.swift */; };
+		32F26F2F281B28B00080584D /* DiscoverTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F26F2E281B28B00080584D /* DiscoverTableViewCell.swift */; };
+		32F26F31281B2DE60080584D /* JSONDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F26F30281B2DE60080584D /* JSONDecoder.swift */; };
+		32F26F33281B3D740080584D /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F26F32281B3D740080584D /* Networking.swift */; };
 		32F4ADED2819D0A0007E0302 /* NewRestaurantController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4ADEC2819D0A0007E0302 /* NewRestaurantController.swift */; };
 		32F4ADEF2819D15B007E0302 /* RoundedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4ADEE2819D15B007E0302 /* RoundedTextField.swift */; };
 		32F66D1528180586005468AD /* RestaurantDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F66D1428180586005468AD /* RestaurantDetailHeaderView.swift */; };
@@ -50,16 +56,22 @@
 		32213ABE281AF85C00193658 /* Discover.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Discover.storyboard; sourceTree = "<group>"; };
 		32213AC3281AFDEC00193658 /* AboutTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTableViewController.swift; sourceTree = "<group>"; };
 		32213AC5281B089A00193658 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		32213AC9281B1EC200193658 /* DiscoverTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewController.swift; sourceTree = "<group>"; };
 		3277C44F28140F680074FA77 /* MonRestaurants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MonRestaurants.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3277C45228140F680074FA77 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3277C45428140F680074FA77 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3277C45E28140F690074FA77 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3277C46028140F690074FA77 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3277C4822814500C0074FA77 /* RestaurantTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewController.swift; sourceTree = "<group>"; };
+		32AF80A528229B4200987D0F /* FetchedRestraurants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedRestraurants.swift; sourceTree = "<group>"; };
+		32AF80A72822A0A000987D0F /* JSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModel.swift; sourceTree = "<group>"; };
 		32D2C98E28146FAE001ABA61 /* RestaurantTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewCell.swift; sourceTree = "<group>"; };
 		32D2C9952815C3C5001ABA61 /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		32D2C9992815D890001ABA61 /* RestaurantDiffableDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDiffableDataSource.swift; sourceTree = "<group>"; };
 		32D2C99C28171307001ABA61 /* RestaurantDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailViewController.swift; sourceTree = "<group>"; };
+		32F26F2E281B28B00080584D /* DiscoverTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverTableViewCell.swift; sourceTree = "<group>"; };
+		32F26F30281B2DE60080584D /* JSONDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoder.swift; sourceTree = "<group>"; };
+		32F26F32281B3D740080584D /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		32F4ADEC2819D0A0007E0302 /* NewRestaurantController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRestaurantController.swift; sourceTree = "<group>"; };
 		32F4ADEE2819D15B007E0302 /* RoundedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTextField.swift; sourceTree = "<group>"; };
 		32F66D102818052E005468AD /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
@@ -131,6 +143,7 @@
 				32213AB7281AF7C400193658 /* WalkthroughViewController.swift */,
 				32213AC3281AFDEC00193658 /* AboutTableViewController.swift */,
 				32213AC5281B089A00193658 /* WebViewController.swift */,
+				32213AC9281B1EC200193658 /* DiscoverTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -144,6 +157,7 @@
 				32F66D18281805CC005468AD /* RestaurantDetailTwoColumnCell.swift */,
 				32F66D1F28180827005468AD /* RestaurantDetailMapCell.swift */,
 				32F4ADEE2819D15B007E0302 /* RoundedTextField.swift */,
+				32F26F2E281B28B00080584D /* DiscoverTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -153,6 +167,10 @@
 			children = (
 				32D2C9952815C3C5001ABA61 /* Restaurant.swift */,
 				32D2C9992815D890001ABA61 /* RestaurantDiffableDataSource.swift */,
+				32F26F30281B2DE60080584D /* JSONDecoder.swift */,
+				32F26F32281B3D740080584D /* Networking.swift */,
+				32AF80A528229B4200987D0F /* FetchedRestraurants.swift */,
+				32AF80A72822A0A000987D0F /* JSONModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -271,7 +289,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				32D2C9962815C3C5001ABA61 /* Restaurant.swift in Sources */,
+				32F26F2F281B28B00080584D /* DiscoverTableViewCell.swift in Sources */,
 				32F4ADEF2819D15B007E0302 /* RoundedTextField.swift in Sources */,
+				32F26F33281B3D740080584D /* Networking.swift in Sources */,
+				32F26F31281B2DE60080584D /* JSONDecoder.swift in Sources */,
 				32213AB6281AF79B00193658 /* WalkthroughPageViewController.swift in Sources */,
 				32213AC4281AFDEC00193658 /* AboutTableViewController.swift in Sources */,
 				32F66D17281805B2005468AD /* RestaurantDetailTextCell.swift in Sources */,
@@ -286,12 +307,15 @@
 				3206EBC72819D6A7006A9FF0 /* MonRestaurants.xcdatamodeld in Sources */,
 				32213AC6281B089A00193658 /* WebViewController.swift in Sources */,
 				32213AB4281AF78700193658 /* WalkthroughContentViewController.swift in Sources */,
+				32AF80A82822A0A000987D0F /* JSONModel.swift in Sources */,
 				32D2C99A2815D890001ABA61 /* RestaurantDiffableDataSource.swift in Sources */,
 				32213AB8281AF7C400193658 /* WalkthroughViewController.swift in Sources */,
 				32D2C99D28171307001ABA61 /* RestaurantDetailViewController.swift in Sources */,
 				32F66D1528180586005468AD /* RestaurantDetailHeaderView.swift in Sources */,
 				3277C4832814500C0074FA77 /* RestaurantTableViewController.swift in Sources */,
 				32F66D24281808D2005468AD /* MapViewController.swift in Sources */,
+				32AF80A628229B4200987D0F /* FetchedRestraurants.swift in Sources */,
+				32213ACA281B1EC200193658 /* DiscoverTableViewController.swift in Sources */,
 				32F4ADED2819D0A0007E0302 /* NewRestaurantController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
